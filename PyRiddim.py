@@ -23,7 +23,11 @@ class PyRiddim:
 	""" returns a riddimbase.org search query as a pandas dataframe """
 
 	def __init__(self, q, q_type='riddim', track=False):
+		cats = ['artist','tune','riddim','label','year','producer','album']
 		self.q = q
+		if q_type not in cats:
+			print('bad query type')
+			return
 		self.q_type = q_type
 		self.track = track
 		self.info = self.r_pull()
@@ -63,8 +67,6 @@ class PyRiddim:
 				'producer':[],
 				'album':[]
 			}
-
-			cats = ['artist','tune','riddim','label','year','producer','album']
 
 			# get page number
 			if soup.find('table', {'class':'base'}).find('select', {'class':'formfield'}) is None:
