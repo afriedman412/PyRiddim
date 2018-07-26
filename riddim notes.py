@@ -1,7 +1,6 @@
 
 from bs4 import BeautifulSoup
 import pandas as pd
-import re
 import requests
 import urllib3
 import certifi
@@ -14,7 +13,7 @@ __maintainer__ = "Andy Friedman"
 __email__      = "afriedman412@gmail.com"
 
 HEADERS = {
-	'User-Agent': 'PyRiddim.py (tbd)'
+	'User-Agent': 'PyRiddim.py (https://github.com/afriedman412/PyRiddim)'
 }
 
 http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
