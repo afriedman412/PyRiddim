@@ -23,9 +23,9 @@ class PyRiddim:
 	""" returns a riddimbase.org search query as a pandas dataframe """
 
 	def __init__(self, q, q_type='riddim', track=False):
-		cats = ['artist','tune','riddim','label','year','producer','album']
+		self.cats = ['artist','tune','riddim','label','year','producer','album']
 		self.q = q
-		if q_type not in cats:
+		if q_type not in self.cats:
 			print('bad query type')
 			return
 		self.q_type = q_type
@@ -41,15 +41,28 @@ class PyRiddim:
 
 		if r.status == 200:
 			soup = BeautifulSoup(r.data, 'lxml')
-			q2 = soup.find('td', {'class':'info-cell'}).find('a')['href']
+			match = False
+			if len(soup.find('table', {'class':'base'}).find_all('tr')) < 5:
+				match = True
+				q2 = soup.find('td', {'class':'info-cell'}).find('a')['href']
+				
+			else:
+				for t in soup.find('table', {'class':'base'}).find_all('tr'):
+					t0 = t.find('td', {'class':'info-cell'})
+					if (t0 is not None) and (t0.find('a').text.lower() == self.q.lower()):
+							match = True
+							q2 = t.find('td', {'class':'info-cell'}).find('a')['href']
+					else:
+						continue
+			if not match:
+				print('no match found!')
+				return
+
 			url1 = f'http://www.riddimbase.org/riddimbase/{q2}'
 
 		else:
 			print(f'bad status: {r.status}')
 			return
-
-		if self.track:
-			print(url1)
 
 		# actual search
 		r = http.request('GET', url1)
@@ -94,7 +107,7 @@ class PyRiddim:
 				if r2.status == 200:
 					for row in soup2.find('table', {'class':'base'}).find_all('tr', {'class':tr_class}):
 						if row.find('td', {'colspan':8}) is None:
-							for cat, cell in zip(cats, row.find_all('td')):
+							for cat, cell in zip(self.cats, row.find_all('td')):
 								if cell.find('a') is not None:
 									a = []
 									for c in cell.find_all('a'):
@@ -104,6 +117,8 @@ class PyRiddim:
 									a = cell.text
 									d = None if ('&nbsp' in a) else a
 								dicto[cat].append(d)
+		if self.track:
+			print('done')
 
 		# converts output to dataframe
 		df = pd.DataFrame(dicto)
