@@ -12,10 +12,8 @@ You can also clone this repository and run `python setup.py install`.
 The `PyRiddim()` constructor takes `q` `q_type` and `track` as arguments, uses those arguments to search Riddimbase and stores the data as a Pandas dataframe.
 
 - `q` is the search query
-- `q_type` is what to search for
+- `q_type` is what you are searching for (default is *riddim*, but can also be *artist*, *tune*, *label*, *album* or *producer*.)
 - `track` toggles print statements while running the query (if ur impatient)
-
-`q_type` defaults to riddim, but can also be *artist*, *tune*, *label*, *album* or *producer*.
 
 `track` defaults to *False*.
 
@@ -26,7 +24,7 @@ How many songs does Riddimbase have for the artist Gyptian?
 
 Run
 
-`gyptian = PyRiddim('Gyptian', 'artist')`
+`gyptian = PyRiddim(q='Gyptian', q_type='artist')`
 
 to execute the search, then
 
