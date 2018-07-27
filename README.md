@@ -1,6 +1,13 @@
 # PyRiddim
 A totally unofficial Python wrapper for [Riddimbase.org](http://www.riddimbase.org/riddimbase.php).
 
+# Installation
+To install with pip, run
+
+`pip install PyRiddim.py`
+
+You can also clone this repository and run `python setup.py install`.
+
 # Instructions
 The `PyRiddim()` constructor takes `q` `q_type` and `track` as arguments, uses those arguments to search Riddimbase and stores the data as a Pandas dataframe.
 
@@ -17,4 +24,12 @@ To see the search results, use the `.info` method.
 # Example
 How many songs does Riddimbase have for the artist Gyptian?
 
-Run `gyptian = PyRiddim('Gyptian', 'artist')` to execute the search, then `gyptian.info` to see the results.
+Run
+
+`gyptian = PyRiddim('Gyptian', 'artist')`
+
+to execute the search, then
+
+`gyptian.info`
+
+to see the results.
